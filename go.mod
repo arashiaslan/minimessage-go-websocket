@@ -13,7 +13,6 @@ require (
 	github.com/joho/godotenv v1.5.1
 	go.elastic.co/apm v1.15.0
 	go.elastic.co/apm/module/apmfiber v1.15.0
-	go.elastic.co/apm/v2 v2.6.2
 	go.mongodb.org/mongo-driver v1.17.0
 	golang.org/x/crypto v0.27.0
 	gorm.io/driver/mysql v1.5.7

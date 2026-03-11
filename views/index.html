@@ -3,121 +3,342 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Messaging App</title>
+  <title>Helio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --border: #e8e8e4;
+      --accent: #1a1a1a;
+      --muted-bg: #f0f0ee;
+      --text: #1a1a1a;
+      --muted: #9a9a94;
+      --danger: #d93025;
     }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ── LOGIN ─────────────────────────────── */
+    #login-wrap {
+      width: 100%;
+      max-width: 340px;
+      padding: 24px;
+      animation: fadeIn 0.3s ease both;
+    }
+
+    .brand {
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+      color: var(--text);
+    }
+
+    .brand span { color: var(--muted); }
+
+    #login-status {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+      min-height: 16px;
+      transition: color 0.2s;
+    }
+
+    #login-status.error { color: var(--danger); }
+
+    .field { margin-bottom: 12px; }
+
+    .field label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .field input::placeholder { color: var(--muted); }
+    .field input:focus { border-color: var(--accent); }
+
+    .btn-login {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity 0.15s;
+    }
+
+    .btn-login:hover { opacity: 0.82; }
+
+    /* ── DASHBOARD ─────────────────────────── */
     #dashboard {
       display: none;
-      height: 100%;
+      position: fixed;
+      inset: 0;
       flex-direction: column;
+      background: var(--bg);
+      animation: fadeIn 0.2s ease both;
     }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 50px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    .online-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-user {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .btn-out {
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.15s;
+      padding: 0;
+    }
+
+    .btn-out:hover { color: var(--danger); }
 
     #chat-box {
       flex: 1;
-      background-color: #f0f0f0;
-      padding: 10px;
-      overflow-y: scroll;
-      border-bottom: 1px solid #ccc;
+      overflow-y: auto;
+      padding: 20px;
+      scroll-behavior: smooth;
     }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
+    #chat-box::-webkit-scrollbar { width: 3px; }
+    #chat-box::-webkit-scrollbar-thumb { background: var(--border); }
+
+    #messages {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-width: 660px;
+      margin: 0 auto;
     }
 
-    li {
-      padding: 8px 10px;
-      margin: 5px 0;
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    .msg-item {
+      display: flex;
+      flex-direction: column;
+      max-width: 65%;
+      animation: msgIn 0.18s ease both;
+    }
+
+    .msg-item.sent { align-self: flex-end; align-items: flex-end; }
+    .msg-item.recv { align-self: flex-start; align-items: flex-start; }
+
+    .msg-name {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+      padding: 0 2px;
+    }
+
+    .msg-bubble {
+      padding: 9px 13px;
+      border-radius: 13px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .msg-item.sent .msg-bubble {
+      background: var(--accent);
+      color: #fff;
+      border-bottom-right-radius: 3px;
+    }
+
+    .msg-item.recv .msg-bubble {
+      background: var(--muted-bg);
+      color: var(--text);
+      border-bottom-left-radius: 3px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 10px 0 4px;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
     #chat-controls {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .input-row {
       display: flex;
       align-items: center;
-      padding: 10px;
-      background-color: #fff;
-      border-top: 1px solid #ccc;
+      gap: 8px;
+      max-width: 660px;
+      margin: 0 auto;
     }
 
     #message-input {
       flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-right: 10px;
-      font-size: 16px;
+      padding: 10px 13px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.15s;
     }
 
-    button {
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
+    #message-input::placeholder { color: var(--muted); }
+    #message-input:focus { border-color: var(--accent); }
+
+    .btn-send {
+      width: 36px;
+      height: 36px;
+      border-radius: 7px;
+      background: var(--accent);
       border: none;
-      border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
     }
 
-    button:hover {
-      background-color: #45a049;
+    .btn-send:hover { opacity: 0.8; }
+    .btn-send svg { width: 14px; height: 14px; fill: #fff; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    #login-form {
-      padding: 20px;
-      max-width: 400px;
-      margin: 50px auto;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+    @media (max-width: 480px) {
+      .topbar-user { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <div id="login-form">
-    <h2 id="login-status">Please log in</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+  <!-- LOGIN -->
+  <div id="login-wrap">
+    <div class="brand">helio<span>.</span></div>
+    <div id="login-status">Sign in to continue</div>
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="username" autocomplete="username">
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="password" autocomplete="current-password">
+    </div>
+    <button class="btn-login" onclick="login()">Continue</button>
   </div>
 
+  <!-- DASHBOARD -->
   <div id="dashboard">
-    <h2>Welcome to the simple messaging app!</h2>
-    <button onclick="logout()">Logout</button>
-    
-    <!-- Chat Box (Full Size) -->
-    <div id="chat-box">
-      <ul id="messages">
-        <!-- Chat messages will appear here -->
-      </ul>
+    <div class="topbar">
+      <div class="topbar-left">
+        helio
+        <div class="online-dot"></div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-user" id="display-name"></span>
+        <button class="btn-out" onclick="logout()">Sign out</button>
+      </div>
     </div>
 
-    <!-- Message input and send button (Inline) -->
+    <div id="chat-box">
+      <ul id="messages"></ul>
+    </div>
+
     <div id="chat-controls">
-      <input type="text" id="message-input" placeholder="Type your message...">
-      <button onclick="sendMessage()">Send</button>
+      <div class="input-row">
+        <input type="text" id="message-input" placeholder="Message…" onkeydown="handleKey(event)">
+        <button class="btn-send" onclick="sendMessage()" title="Send">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -126,221 +347,203 @@
     let pendingMessages = [];
     let retryLogoutCount = 0;
 
-    // Check if JWT is stored in sessionStorage
-    document.addEventListener('DOMContentLoaded', function() {
-      if ('Notification' in window) {
-        if (Notification.permission === 'granted') {
-          console.log("Notification permission already granted.");
-        } else if (Notification.permission !== 'denied') {
-          Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-              console.log("Notification permission granted.");
-            }
-          });
-        }
-      } else {
-        console.log('This browser does not support notifications.');
+    document.addEventListener('DOMContentLoaded', () => {
+      if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission();
       }
-      
-      const storedToken = sessionStorage.getItem('jwtToken');
-      if (storedToken) {
-        showDashboard();
+
+      ['username', 'password'].forEach(id => {
+        document.getElementById(id).addEventListener('keydown', e => {
+          if (e.key === 'Enter') login();
+        });
+      });
+
+      if (sessionStorage.getItem('jwtToken')) {
+        initDashboard();
         setupWebSocket();
       }
     });
 
-    // Login function
+    function initDashboard() {
+      const fullname = sessionStorage.getItem('fullname') || sessionStorage.getItem('username') || '';
+      document.getElementById('display-name').textContent = fullname;
+      showDashboard();
+      fetchMessageHistory(); // fetch history langsung, tidak perlu nunggu WebSocket
+    }
+
+    function setStatus(msg, isError = false) {
+      const el = document.getElementById('login-status');
+      el.textContent = msg;
+      el.className = isError ? 'error' : '';
+    }
+
     function login() {
-      const username = document.getElementById('username').value;
+      const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
+      if (!username || !password) return setStatus('Please fill in all fields.', true);
+
+      setStatus('Signing in…');
 
       fetch('/user/v1/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message === "success" && data.data.token) {
-          sessionStorage.setItem('jwtToken', data.data.token);
-          sessionStorage.setItem('refreshToken', data.data.refresh_token);
-          sessionStorage.setItem('username', data.data.username);
-          sessionStorage.setItem('fullname', data.data.full_name);
-          document.getElementById('login-status').innerText = 'Login successful!';
-          showDashboard();
-          setupWebSocket();
-        } else {
-          document.getElementById('login-status').innerText = 'Login failed!';
-        }
-      })
-      .catch(err => {
-        document.getElementById('login-status').innerText = 'Error during login';
-      });
+        .then(r => r.json())
+        .then(data => {
+          if (data.message === 'success' && data.data.token) {
+            sessionStorage.setItem('jwtToken', data.data.token);
+            sessionStorage.setItem('refreshToken', data.data.refresh_token);
+            sessionStorage.setItem('username', data.data.username);
+            sessionStorage.setItem('fullname', data.data.full_name);
+            initDashboard();
+            setupWebSocket();
+          } else {
+            setStatus('Incorrect username or password.', true);
+          }
+        })
+        .catch(() => setStatus('Connection error. Try again.', true));
     }
 
-    // Logout function
     function logout() {
       fetch('/user/v1/logout', {
         method: 'DELETE',
-        headers: {
-          'Authorization': sessionStorage.getItem('jwtToken')
-        }
+        headers: { 'Authorization': sessionStorage.getItem('jwtToken') }
       })
-      .then(response => {
-        // If unauthorized, refresh token and retry logout
-        if (response.status === 401) {
-          retryLogoutCount++;
-          if (retryLogoutCount <= 3) {
-            return refreshToken().then(() => logout());
+        .then(res => {
+          if (res.status === 401) {
+            retryLogoutCount++;
+            if (retryLogoutCount <= 3) return refreshToken().then(() => logout());
+            throw new Error('Max retries');
           }
-          throw new Error("Max retry limit reached for logout.");
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.message === "success") {
-          sessionStorage.removeItem('jwtToken');
-          sessionStorage.removeItem('refreshToken');
-          sessionStorage.removeItem('username');
-          sessionStorage.removeItem('fullname');
-          window.alert("Logout successful!");
-          location.reload();
-        } else {
-          window.alert("Logout failed!");
-        }
-      })
-      .catch(err => {
-        window.alert("Logout failed!");
-      });
+          return res.json();
+        })
+        .then(data => {
+          if (data.message === 'success') {
+            ['jwtToken', 'refreshToken', 'username', 'fullname'].forEach(k => sessionStorage.removeItem(k));
+            location.reload();
+          }
+        })
+        .catch(() => alert('Logout failed.'));
     }
 
-    // Function to refresh the token
     function refreshToken() {
       return fetch('/user/v1/refresh-token', {
         method: 'POST',
-        headers: {
-          'Authorization': sessionStorage.getItem('refreshToken')
-        }
+        headers: { 'Authorization': sessionStorage.getItem('refreshToken') }
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message === "success" && data.data.token) {
-          sessionStorage.setItem('jwtToken', data.data.token);
-        }
-      })
-      .catch(err => {
-        console.error('Error refreshing token:', err);
-      });
+        .then(r => r.json())
+        .then(data => {
+          if (data.message === 'success' && data.data.token) {
+            sessionStorage.setItem('jwtToken', data.data.token);
+          }
+        });
     }
 
-    // Function to fetch message history
     function fetchMessageHistory() {
       fetch('/message/v1/history', {
         method: 'GET',
-        headers: {
-          'Authorization': `${sessionStorage.getItem('jwtToken')}` // Include JWT token for authorization
-        }
+        headers: { 'Authorization': sessionStorage.getItem('jwtToken') }
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Assuming the data format is an array of messages
-        data.data.forEach(message => {
-          addMessageToChat(message.from, message.message); // Function to display messages in chat
-        });
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
+        .then(r => r.json())
+        .then(data => {
+          if (data.data && data.data.length) {
+            addDivider('Earlier');
+            data.data.forEach(msg => addMessageToChat(msg.from, msg.message));
+            addDivider('Today');
+          }
+        })
+        .catch(err => console.error('History error:', err));
     }
-    
 
-    // Function to set up WebSocket connection
     function setupWebSocket() {
-      socket = new WebSocket('ws://localhost:8080/message/v1/send'); // Replace with your WebSocket server URL
+      const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      socket = new WebSocket(`${wsProto}//${location.host}/message/v1/send`);
 
-      socket.onopen = function(event) {
-        console.log('Connected to WebSocket server.');
-        fetchMessageHistory()
-        pendingMessages.forEach(message => {
-          socket.send(message);
-        });
+      socket.onopen = () => {
+        pendingMessages.forEach(m => socket.send(m));
         pendingMessages = [];
       };
 
-      socket.onmessage = function(event) {
-        const message = JSON.parse(event.data);
-        showNotification(message.from, message.message);  
-        addMessageToChat(message.from, message.message);
+      socket.onmessage = event => {
+        const msg = JSON.parse(event.data);
+        const myFullname = sessionStorage.getItem('fullname') || sessionStorage.getItem('username');
+
+        // Bug fix: server echoes our own sent messages back.
+        // Since we already render optimistically in sendMessage(),
+        // we skip any incoming message whose sender is ourselves.
+        if (msg.from === myFullname) return;
+
+        showNotification(msg.from, msg.message);
+        addMessageToChat(msg.from, msg.message);
       };
 
-      socket.onclose = function(event) {
-        console.log('Disconnected from WebSocket server.');
-      };
-
-      socket.onerror = function(error) {
-        console.error('WebSocket error:', error);
-      };
+      socket.onclose = () => console.log('Disconnected');
+      socket.onerror = err => console.error('WS error:', err);
     }
-    
-    function showNotification(title, message) {
-      // Only show notifications if the user has granted permission and the page is not visible
-      if (Notification.permission === "granted") {
-        const notification = new Notification(title, {
-          body: message,
-          // icon: 'chat-icon.png'  // You can add a custom icon for the notification
-        });
-    
-        // Optional: Add click event to focus the window when the notification is clicked
-        notification.onclick = function() {
-          window.focus();
-        };
+
+    function showNotification(title, body) {
+      if (Notification.permission === 'granted') {
+        const n = new Notification(title, { body });
+        n.onclick = () => window.focus();
       }
     }
 
-    // Function to send a message via WebSocket
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) sendMessage();
+    }
+
     function sendMessage() {
       const input = document.getElementById('message-input');
-      const message = input.value;
+      const message = input.value.trim();
+      if (!message) return;
 
-      if (message.trim() !== '') {
-        const msgObject = {
-          from: sessionStorage.getItem('fullname'),
-          message: message
-        };
+      const fullname = sessionStorage.getItem('fullname') || sessionStorage.getItem('username');
+      const payload = JSON.stringify({ from: fullname, message });
 
-        const messageToSend = JSON.stringify(msgObject);
-
-        if (socket.readyState === WebSocket.OPEN) {
-          socket.send(messageToSend);
-        } else {
-          pendingMessages.push(messageToSend);
-        }
-
-        input.value = '';
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(payload);
+      } else {
+        pendingMessages.push(payload);
       }
+
+      // Render immediately — don't wait for server echo
+      addMessageToChat(fullname, message, true);
+      input.value = '';
     }
 
-    // Function to add a message to the chat box
-    function addMessageToChat(from, message) {
-      const messagesList = document.getElementById('messages');
-      const newMessage = document.createElement('li');
-      newMessage.textContent = `${from}: ${message}`;
-      messagesList.appendChild(newMessage);
-
-      const chatBox = document.getElementById('chat-box');
-      chatBox.scrollTop = chatBox.scrollHeight;
+    function addDivider(label) {
+      const li = document.createElement('li');
+      li.className = 'divider';
+      li.textContent = label;
+      document.getElementById('messages').appendChild(li);
     }
 
-    // Function to show the dashboard
+    function addMessageToChat(from, message, isSelf = false) {
+      const myFullname = sessionStorage.getItem('fullname') || sessionStorage.getItem('username');
+      const self = isSelf || from === myFullname;
+
+      const li = document.createElement('li');
+      li.className = `msg-item ${self ? 'sent' : 'recv'}`;
+
+      const name = document.createElement('div');
+      name.className = 'msg-name';
+      name.textContent = self ? 'You' : from;
+
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-bubble';
+      bubble.textContent = message;
+
+      li.appendChild(name);
+      li.appendChild(bubble);
+      document.getElementById('messages').appendChild(li);
+
+      const box = document.getElementById('chat-box');
+      box.scrollTop = box.scrollHeight;
+    }
+
     function showDashboard() {
-      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('login-wrap').style.display = 'none';
       document.getElementById('dashboard').style.display = 'flex';
     }
   </script>

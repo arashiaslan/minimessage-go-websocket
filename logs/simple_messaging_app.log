@@ -86,3 +86,55 @@ dial tcp 127.0.0.1:3306: connectex: No connection could be made because the targ
 2024/10/06 00:08:48 error payload:  websocket: close 1001 (going away)
 2024/10/09 21:17:11 successfully migrate database!
 2024/10/09 21:17:11 successfully connected to mongoDB
+2026/03/11 21:55:27 Failed to connect to the Database! 
+dial tcp: lookup mysql-simple-messaging-app.cl6m6gek2g8u.ap-southeast-1.rds.amazonaws.com: no such host
+2026/03/11 22:08:34 successfully migrate database!
+2026/03/11 22:12:25 successfully migrate database!
+2026/03/11 22:12:26 successfully connected to mongoDB
+2026/03/11 22:18:04 failed to get username: record not found
+2026/03/11 22:23:52 failed to validate request: Key: 'User.Username' Error:Field validation for 'Username' failed on the 'min' tag
+Key: 'User.Password' Error:Field validation for 'Password' failed on the 'min' tag
+2026/03/11 22:24:32 failed to get username: record not found
+2026/03/11 22:25:09 failed to find message: server selection error: server selection timeout, current topology: { Type: ReplicaSetNoPrimary, Servers: [{ Addr: ac-uqm2k85-shard-00-02.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, { Addr: ac-uqm2k85-shard-00-00.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, { Addr: ac-uqm2k85-shard-00-01.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, ] }
+2026/03/11 22:25:16 server selection error: server selection timeout, current topology: { Type: ReplicaSetNoPrimary, Servers: [{ Addr: ac-uqm2k85-shard-00-02.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, { Addr: ac-uqm2k85-shard-00-00.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, { Addr: ac-uqm2k85-shard-00-01.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, ] }
+2026/03/11 22:27:13 server selection error: server selection timeout, current topology: { Type: ReplicaSetNoPrimary, Servers: [{ Addr: ac-uqm2k85-shard-00-02.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, { Addr: ac-uqm2k85-shard-00-00.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, { Addr: ac-uqm2k85-shard-00-01.rlmf4ur.mongodb.net:27017, Type: Unknown, Last error: remote error: tls: internal error }, ] }
+2026/03/11 22:29:40 connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:30:41 failed to find message: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:30:47 connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:31:07 connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:31:13 connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:31:51 connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:31:56 connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism "SCRAM-SHA-1": (AtlasError) bad auth : authentication failed
+2026/03/11 22:31:58 error payload:  websocket: close 1001 (going away)
+2026/03/11 22:39:30 error payload:  websocket: close 1001 (going away)
+2026/03/11 23:21:48 successfully migrate database!
+2026/03/11 23:21:48 successfully connected to mongoDB
+2026/03/11 23:22:08 error payload:  websocket: close 1001 (going away)
+2026/03/11 23:28:34 failed to get username: invalid connection
+2026/03/12 00:02:26 failed to get username: Error 1146 (42S02): Table 'simple_messaging.users' doesn't exist
+2026/03/12 00:02:32 failed to insert new user: Error 1146 (42S02): Table 'simple_messaging.users' doesn't exist
+2026/03/12 00:02:58 Failed to connect to the Database! 
+dial tcp: lookup mysql: no such host
+2026/03/12 00:05:01 successfully migrate database!
+2026/03/12 00:05:01 successfully connected to mongoDB
+2026/03/12 00:05:49 failed to find message: server selection error: server selection timeout, current topology: { Type: Unknown, Servers: [{ Addr: mongodb:27017, Type: Unknown, Last error: dial tcp: lookup mongodb: no such host }, ] }
+2026/03/12 00:05:55 server selection error: server selection timeout, current topology: { Type: Unknown, Servers: [{ Addr: mongodb:27017, Type: Unknown, Last error: dial tcp: lookup mongodb: no such host }, ] }
+2026/03/12 00:06:25 server selection error: server selection timeout, current topology: { Type: Unknown, Servers: [{ Addr: mongodb:27017, Type: Unknown, Last error: dial tcp: lookup mongodb: no such host }, ] }
+2026/03/12 00:07:12 successfully migrate database!
+2026/03/12 00:07:31 successfully migrate database!
+2026/03/12 00:08:08 successfully migrate database!
+2026/03/12 00:08:08 successfully connected to mongoDB
+2026/03/12 00:10:27 error payload:  websocket: close 1001 (going away)
+2026/03/12 00:15:17 successfully migrate database!
+2026/03/12 00:15:17 successfully connected to mongoDB
+2026/03/12 00:17:32 error payload:  websocket: close 1001 (going away)
+2026/03/12 00:17:40 failed to get username: record not found
+2026/03/12 00:19:50 error payload:  websocket: close 1001 (going away)
+2026/03/12 00:19:50 error payload:  websocket: close 1001 (going away)
+2026/03/12 00:19:59 successfully migrate database!
+2026/03/12 00:19:59 successfully connected to mongoDB
+2026/03/12 00:22:49 successfully migrate database!
+2026/03/12 00:22:49 successfully connected to mongoDB
+2026/03/12 00:23:26 error payload:  websocket: close 1001 (going away)
+2026/03/12 00:23:33 error payload:  websocket: close 1001 (going away)
+2026/03/12 00:23:56 error payload:  websocket: close 1001 (going away)
