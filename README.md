@@ -1,6 +1,6 @@
 # Simple Messaging App
 
-A messaging application built with Golang, Fiber, GORM, MySQL, and MongoDB.
+A messaging application built with Golang, Fiber, GORM, MySQL, Websocket and MongoDB.
 
 ## Quick Start (Docker)
 
