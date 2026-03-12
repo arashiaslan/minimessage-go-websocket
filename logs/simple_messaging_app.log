@@ -138,3 +138,9 @@ dial tcp: lookup mysql: no such host
 2026/03/12 00:23:26 error payload:  websocket: close 1001 (going away)
 2026/03/12 00:23:33 error payload:  websocket: close 1001 (going away)
 2026/03/12 00:23:56 error payload:  websocket: close 1001 (going away)
+2026/03/12 08:32:29 Failed to connect to the Database! 
+dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
+2026/03/12 08:33:50 successfully migrate database!
+2026/03/12 08:33:50 successfully connected to mongoDB
+2026/03/12 08:34:11 error payload:  websocket: close 1001 (going away)
+2026/03/12 08:34:15 error payload:  websocket: close 1001 (going away)

@@ -1,31 +1,34 @@
-# Fiber Bootstrap
-Fiber bootstrap for rapid development using Go-Fiber / Gorm / Validator.
+# Simple Messaging App
 
-# Components
-* Fiber
-  * Html Engine Template
-  * Logger
-  * Monitoring
-* Gorm
-  * PGSQL Driver
-* Validator  
-* Env File
+A messaging application built with Golang, Fiber, GORM, MySQL, and MongoDB.
 
-# Router 
-API Router `/api` with rate limiter middleware  
-Http Router `/` with CORS and CSRF middleware  
+## Quick Start (Docker)
 
-# Setup
+1. Copy environment variables:
+   ```bash
+   cp .env.example .env
+   ```
 
-1. Copy the example env file over:
-    ```
-    cp .env.example .env
-    ```
+2. Start all services:
+   ```bash
+   docker-compose up -d --build
+   ```
 
-2. Modify the env file you just copied `.env` with the correct credentials for your database. Make sure the database you entered in `DB_NAME` has been created.
+3. Access the application:
+   - API: `http://localhost:4000`
+   - WebSocket: `ws://localhost:8080`
 
-3. Run the API:
-    ```
-    go run main.go
-    ```
-Your api should be running at `http://localhost:4000/` if the port is in use you may modify it in the `.env` you just created.
+## Local Development
+
+To run the Go app manually and only use Docker for the databases:
+
+1. Start dependencies:
+   ```bash
+   docker-compose up -d mysql mongodb apm-server
+   ```
+
+2. Run the app:
+   ```bash
+   go mod download
+   go run main.go
+   ```
